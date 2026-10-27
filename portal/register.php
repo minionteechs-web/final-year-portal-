@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $fullName = trim($_POST['full_name'] ?? '');
         $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
-        $confirm = $_POST['password_confirm'] ?? '';
+        $password = trim($_POST['password'] ?? '');
+        $confirm = trim($_POST['password_confirm'] ?? '');
         $role = $_POST['role'] ?? 'student';
         $department = trim($_POST['department'] ?? '');
         $matric = trim($_POST['matric_number'] ?? '');
@@ -173,6 +173,42 @@ $roleSelected = $_POST['role'] ?? 'student';
   };
   role.addEventListener('change', sync);
   sync();
+
+  // --- Client-side password match validation ---
+  const password = document.getElementById('password');
+  const confirm = document.getElementById('password_confirm');
+  const form = document.querySelector('form');
+  let matchError = null;
+
+  const showMatchError = (show) => {
+    if (show && !matchError) {
+      matchError = document.createElement('div');
+      matchError.style.color = 'var(--danger, #c0392b)';
+      matchError.style.fontSize = '0.85rem';
+      matchError.style.marginTop = '0.35rem';
+      matchError.textContent = 'Passwords do not match.';
+      confirm.parentNode.insertBefore(matchError, confirm.nextSibling);
+      password.style.borderColor = 'var(--danger, #c0392b)';
+      confirm.style.borderColor = 'var(--danger, #c0392b)';
+    } else if (!show && matchError) {
+      matchError.remove();
+      matchError = null;
+      password.style.borderColor = '';
+      confirm.style.borderColor = '';
+    }
+  };
+
+  const checkMatch = () => {
+    showMatchError(password.value !== '' && confirm.value !== '' && password.value !== confirm.value);
+  };
+
+  password.addEventListener('input', checkMatch);
+  confirm.addEventListener('input', checkMatch);
+
+  form.addEventListener('submit', (e) => {
+    checkMatch();
+    if (matchError) e.preventDefault();
+  });
 })();
 </script>
 
