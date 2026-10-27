@@ -49,10 +49,22 @@ function is_valid_student_level(?string $level): bool
 
 function csrf_token(): string
 {
-    if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    $isSecure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+                (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+
+    if (empty($_COOKIE['csrf_token'])) {
+        $token = bin2hex(random_bytes(32));
+        setcookie('csrf_token', $token, [
+            'lifetime' => 0,
+            'path' => '/',
+            'domain' => '',
+            'secure' => $isSecure,
+            'httponly' => false,
+            'samesite' => 'Lax',
+        ]);
+        $_COOKIE['csrf_token'] = $token;
     }
-    return $_SESSION['csrf_token'];
+    return $_COOKIE['csrf_token'];
 }
 
 function csrf_field(): string
@@ -63,7 +75,8 @@ function csrf_field(): string
 function verify_csrf(): bool
 {
     $token = $_POST['csrf_token'] ?? '';
-    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+    $cookieToken = $_COOKIE['csrf_token'] ?? '';
+    return $token !== '' && hash_equals($cookieToken, $token);
 }
 
 function set_flash(string $type, string $message): void
