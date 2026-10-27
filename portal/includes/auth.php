@@ -21,6 +21,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Ensure CSRF cookie is set before any output (works across Vercel serverless invocations).
+csrf_token();
+
 require_once __DIR__ . '/../config/database.php';
 
 /** Eight lecturer qualities used across assessments and charts */
