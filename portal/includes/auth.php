@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
 
     session_set_cookie_params([
-        'lifetime' => 0,
+        'expires' => 0,
         'path' => '/',
         'domain' => '',
         'secure' => $isSecure,
@@ -58,7 +58,7 @@ function csrf_token(): string
     if (empty($_COOKIE['csrf_token'])) {
         $token = bin2hex(random_bytes(32));
         setcookie('csrf_token', $token, [
-            'lifetime' => 0,
+            'expires' => 0,
             'path' => '/',
             'domain' => '',
             'secure' => $isSecure,
