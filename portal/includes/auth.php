@@ -3,8 +3,17 @@
  * Authentication helpers, CSRF, flash messages, and role guards.
  */
 
-// Ensure sessions work on Vercel container (read-only FS except /tmp)
-ini_set('session.save_path', '/tmp');
+// Set session save path to a writable temp directory (platform-aware).
+if (DIRECTORY_SEPARATOR === '\\') {
+    // Windows (XAMPP/local): use PHP's default temp path
+    $tmpPath = sys_get_temp_dir();
+} else {
+    // Linux (Vercel/server): /tmp is the writable location
+    $tmpPath = '/tmp';
+}
+if (is_dir($tmpPath) && is_writable($tmpPath)) {
+    ini_set('session.save_path', $tmpPath);
+}
 
 if (session_status() === PHP_SESSION_NONE) {
     $isSecure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
