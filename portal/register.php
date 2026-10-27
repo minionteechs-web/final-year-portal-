@@ -26,17 +26,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $role = 'student';
         }
 
-        if ($fullName === '' || $email === '' || $password === '') {
+        $rlKey = rate_limit_key('register', $email);
+        if (is_rate_limited($rlKey)) {
+            $error = 'Too many registration attempts. Please try again in 15 minutes.';
+        } elseif ($fullName === '' || $email === '' || $password === '') {
+            record_rate_limit_failure($rlKey);
             $error = 'Name, email, and password are required.';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            record_rate_limit_failure($rlKey);
             $error = 'Please enter a valid email address.';
         } elseif (strlen($password) < 6) {
+            record_rate_limit_failure($rlKey);
             $error = 'Password must be at least 6 characters.';
         } elseif ($password !== $confirm) {
+            record_rate_limit_failure($rlKey);
             $error = 'Passwords do not match.';
         } elseif ($role === 'student' && $matric === '') {
+            record_rate_limit_failure($rlKey);
             $error = 'Matric number is required for students.';
         } elseif ($role === 'student' && !is_valid_student_level($academicLevel)) {
+            record_rate_limit_failure($rlKey);
             $error = 'Select your current academic level (100–400).';
         } else {
             $check = db()->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
@@ -46,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $check->close();
 
             if ($exists) {
-                $error = 'An account with that email already exists.';
+                $error = 'Registration complete. If the email is new, an account has been created.';
             } else {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
                 $conn = db();
@@ -72,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
 
                     $conn->commit();
+                    clear_rate_limit($rlKey);
                     set_flash('success', 'Registration successful. Please log in, then enrol in your courses before assessing lecturers.');
                     header('Location: ' . base_path() . '/login.php');
                     exit;

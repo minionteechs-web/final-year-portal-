@@ -105,6 +105,17 @@ CREATE TABLE assessments (
   CONSTRAINT fk_assess_course FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+-- Password reset tokens
+CREATE TABLE password_resets (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  token VARCHAR(64) NOT NULL UNIQUE,
+  expires_at TIMESTAMP NOT NULL,
+  used TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_pr_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
 -- Optional system feedback from any authenticated user
 CREATE TABLE system_feedback (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -117,7 +128,7 @@ CREATE TABLE system_feedback (
 
 -- ---------------------------------------------------------------------------
 -- Seed data
--- Passwords: Admin@123 | Lecturer@123 | Student@123
+-- Passwords are bcrypt hashes (see login.php / register.php for defaults).
 -- ---------------------------------------------------------------------------
 
 INSERT INTO users (id, full_name, email, password, role, department, matric_number, academic_level) VALUES

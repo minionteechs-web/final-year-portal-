@@ -15,7 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        if ($email === '' || $password === '') {
+        $rlKey = rate_limit_key('login', $email);
+        if (is_rate_limited($rlKey)) {
+            $error = 'Too many failed login attempts. Please try again in 15 minutes.';
+        } elseif ($email === '' || $password === '') {
             $error = 'Email and password are required.';
         } else {
             $stmt = db()->prepare('SELECT id, full_name, email, password, role, is_active FROM users WHERE email = ? LIMIT 1');
@@ -25,8 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             if (!$user || !(int) $user['is_active'] || !password_verify($password, $user['password'])) {
+                record_rate_limit_failure($rlKey);
                 $error = 'Invalid email or password.';
             } else {
+                clear_rate_limit($rlKey);
                 login_user($user);
                 set_flash('success', 'Welcome back, ' . $user['full_name'] . '!');
                 header('Location: ' . dashboard_url_for_role($user['role']));
@@ -63,14 +68,9 @@ require_once __DIR__ . '/includes/header.php';
             <button type="submit" class="btn btn-green">Login</button>
         </form>
 
-        <p style="margin-top:1.25rem;color:var(--muted);">No account? <a href="<?= e(base_path()) ?>/register.php">Register</a></p>
+        <p style="margin-top:1.25rem;color:var(--muted);">No account? <a href="<?= e(base_path()) ?>/register.php">Register</a> &bull; <a href="<?= e(base_path()) ?>/forgot_password.php">Forgot password?</a></p>
 
-        <div class="demo-creds">
-            <strong>Demo accounts</strong><br>
-            Admin: admin@unn.edu.ng / Admin@123<br>
-            Lecturer: chinedu.okeke@unn.edu.ng / Lecturer@123<br>
-            Student: adaobi.umeh@unn.edu.ng / Student@123
-        </div>
+        
     </div>
 </div>
 

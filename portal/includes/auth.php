@@ -248,3 +248,51 @@ function get_lecturer_id_for_user(int $userId): ?int
     $stmt->close();
     return $row ? (int) $row['id'] : null;
 }
+
+/* ===== Rate limiting helpers ===== */
+
+function rate_limit_key(string $prefix, string $identifier): string
+{
+    return $prefix . '_' . md5((string) $identifier);
+}
+
+function is_rate_limited(string $key, int $maxAttempts = 5, int $lockoutMinutes = 15): bool
+{
+    if (!isset($_SESSION['rate_limits'])) {
+        $_SESSION['rate_limits'] = [];
+    }
+    $entry = $_SESSION['rate_limits'][$key] ?? null;
+    if ($entry === null) {
+        return false;
+    }
+    if ((int) $entry['count'] >= $maxAttempts) {
+        $elapsedMin = (time() - (int) $entry['first']) / 60;
+        if ($elapsedMin < $lockoutMinutes) {
+            return true;
+        }
+        unset($_SESSION['rate_limits'][$key]);
+    }
+    return false;
+}
+
+function record_rate_limit_failure(string $key): void
+{
+    if (!isset($_SESSION['rate_limits'])) {
+        $_SESSION['rate_limits'] = [];
+    }
+    if (!isset($_SESSION['rate_limits'][$key])) {
+        $_SESSION['rate_limits'][$key] = ['count' => 1, 'first' => time()];
+    } else {
+        $_SESSION['rate_limits'][$key]['count']++;
+        if ((int) $_SESSION['rate_limits'][$key]['count'] === 1) {
+            $_SESSION['rate_limits'][$key]['first'] = time();
+        }
+    }
+}
+
+function clear_rate_limit(string $key): void
+{
+    if (isset($_SESSION['rate_limits'][$key])) {
+        unset($_SESSION['rate_limits'][$key]);
+    }
+}

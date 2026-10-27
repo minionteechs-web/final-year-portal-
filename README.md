@@ -31,4 +31,4 @@
 
 ## Run the portal
 
-See `portal/README.md`. Demo: `admin@unn.edu.ng` / `Admin@123`
+See `portal/README.md`.

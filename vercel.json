@@ -1,3 +1,14 @@
 {
-  "framework": "container"
+  "framework": "container",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/portal/$1" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" }
+      ]
+    }
+  ]
 }

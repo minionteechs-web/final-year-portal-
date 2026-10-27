@@ -46,18 +46,6 @@ Students rate lecturers on eight teaching qualities and explore radar/bar chart 
 5. **Open the app**  
    Visit: [http://localhost/portal/](http://localhost/portal/)
 
-## Demo accounts
-
-| Role     | Email                     | Password      |
-|----------|---------------------------|---------------|
-| Admin    | `admin@unn.edu.ng`        | `Admin@123`   |
-| Lecturer | `chinedu.okeke@unn.edu.ng`| `Lecturer@123`|
-| Lecturer | `ngozi.eze@unn.edu.ng`    | `Lecturer@123`|
-| Lecturer | `ifeanyi.nwosu@unn.edu.ng`| `Lecturer@123`|
-| Student  | `adaobi.umeh@unn.edu.ng`  | `Student@123` |
-| Student  | `emeka.obi@unn.edu.ng`    | `Student@123` |
-| Student  | `blessing.anya@unn.edu.ng`| `Student@123` |
-
 ## Features
 
 - Role-based auth (student / lecturer / admin) with `password_hash` / `password_verify`
@@ -100,14 +88,20 @@ portal/
 ├── login.php
 ├── logout.php
 ├── register.php
+├── reset_password.php
+├── forgot_password.php
 └── README.md
 ```
 
 ## Security notes
 
 - Passwords are stored as bcrypt hashes (never plain text).
-- Sessions are regenerated on login.
+- Sessions are regenerated on login; secure, HttpOnly, SameSite=Lax cookies.
 - Forms include CSRF tokens verified server-side.
+- Rate limiting on login/register/forgot-password (5 attempts, 15-minute lockout).
+- Generic error messages prevent email enumeration on registration.
+- Password reset flow with single-use, time-limited tokens.
+- Database credentials loaded from environment variables (with safe defaults).
 - Duplicate assessments for the same semester/session are blocked in SQL and in application logic.
 
 ## Troubleshooting
