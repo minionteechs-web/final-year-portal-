@@ -782,6 +782,60 @@ table.data tr:hover td {
   }
 
   .stats-grid {
+/* -------------------------------------------------
+   3‑D hexagonal background (pure CSS)
+   ------------------------------------------------- */
+.bg-3d {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* hexagon pattern via conic-gradient */
+.bg-3d::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    #ff6a00 0deg,
+    #ee0979 45deg,
+    #7c3aed 90deg,
+    #21a1f1 135deg,
+    #ff6a00 180deg,
+    #ee0979 225deg,
+    #7c3aed 270deg,
+    #21a1f1 315deg
+  );
+  animation: rotateHex 20s linear infinite;
+  width: 400vw;
+  height: 400vw;
+  mask: radial-gradient(ellipse at center, transparent 50%, black 50%);
+}
+
+/* rotate the whole pattern */
+@keyframes rotateHex {
+  from { transform: rotate(0deg) translateZ(-200px) rotateX(30deg); }
+  to   { transform: rotate(360deg) translateZ(-200px) rotateX(30deg); }
+}
+
+/* make sure the rest of the page sits above the animation */
+body {
+  position: relative;
+  z-index: 1;               /* above .bg-3d */
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* -------------------------------------------------
+   Optional: subtle page‑wide tilt on mouse move
+   ------------------------------------------------- */
+.html-style {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
     grid-template-columns: 1fr;
   }
 }
