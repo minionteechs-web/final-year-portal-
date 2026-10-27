@@ -20,6 +20,10 @@ function db(): mysqli
         return $conn;
     }
 
+    if (function_exists('mysqli_report')) {
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    }
+
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
     if ($conn->connect_error) {
