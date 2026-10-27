@@ -20,15 +20,14 @@ function db(): mysqli
         return $conn;
     }
 
-    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-    try {
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-        $conn->set_charset('utf8mb4');
-    } catch (mysqli_sql_exception $e) {
+    if ($conn->connect_error) {
         http_response_code(500);
         die('Database connection failed. Import portal/sql/schema.sql in phpMyAdmin, then refresh.');
     }
+
+    $conn->set_charset('utf8mb4');
 
     return $conn;
 }
