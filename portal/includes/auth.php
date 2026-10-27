@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
 
     session_set_cookie_params([
-        'expires' => 0,
+        'lifetime' => 0,
         'path' => '/',
         'domain' => '',
         'secure' => $isSecure,
