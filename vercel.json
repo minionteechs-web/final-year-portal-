@@ -1,8 +1,5 @@
 {
   "framework": "container",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/portal/$1" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
