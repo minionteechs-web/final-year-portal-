@@ -3,7 +3,21 @@
  * Authentication helpers, CSRF, flash messages, and role guards.
  */
 
+// Ensure sessions work on Vercel container (read-only FS except /tmp)
+ini_set('session.save_path', '/tmp');
+
 if (session_status() === PHP_SESSION_NONE) {
+    $isSecure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+                (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => '',
+        'secure' => $isSecure,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
     session_start();
 }
 
