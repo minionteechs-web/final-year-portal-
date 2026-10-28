@@ -180,7 +180,8 @@ require_once __DIR__ . '/../includes/header.php';
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="toggle_access">
             <label style="margin:0;display:flex;align-items:center;gap:0.5rem;">
-                <input type="checkbox" name="enabled" value="1" <?= $studentAccessEnabled ? 'checked' : '' ?>>
+                <input type="hidden" name="enabled" value="0">
+<input type="checkbox" name="enabled" value="1" <?= $studentAccessEnabled ? 'checked' : '' ?>>
                 <span>Student access enabled</span>
             </label>
             <button type="submit" class="btn btn-green">Save access setting</button>
