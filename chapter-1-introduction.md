@@ -33,7 +33,7 @@ Without such a system, misconception will continue to shape academic behaviour m
 To design and develop an online students’ system for preknowledge and overview of lecturers in the Department of Computer Science, University of Nigeria, Nsukka.
 
 **Specific Objectives**  
-1. Ascertain lecturer assessment qualities through separate oral interviews with lecturers (with note-taking and later compilation), focusing on eight indicators: interactiveness, audibility, availability of lecture notes, class control, communication, punctuality, fairness in assessment, and approachability.  
+1. Ascertain lecturer assessment qualities by administering a fifteen-item assessment-quality questionnaire to ten lecturers; the eight indicators retained as the most selected were interactiveness, audibility, availability of lecture notes, class control, communication, punctuality, fairness in assessment, and approachability.  
 2. Design an automated response form through which students can assess lecturers on the identified qualities.  
 3. Develop a web-based lecturer assessment portal using PHP, with dashboards and charts that present aggregated overview information.
 
@@ -46,12 +46,13 @@ To design and develop an online students’ system for preknowledge and overview
 
 ### 1.5 Scope and Limitations of the Study
 
-The study is limited to the Department of Computer Science, UNN. It covers identification of eight lecturer assessment qualities, design of an automated student response form, and development of a PHP/MySQL portal with charts. Respondents are Computer Science lecturers and undergraduate students. The study does not cover all UNN faculties, does not replace official promotion appraisal, and does not measure research productivity. Student ratings may contain bias; anonymity and aggregation reduce misuse risk but do not eliminate all subjectivity. Interface diagrams and screenshots are placed in the appendices of the bound copy.
+The study is limited to the Department of Computer Science, UNN. It covers screening of fifteen lecturer assessment qualities down to the eight most selected by ten lecturers through a questionnaire, design of an automated student response form, and development of a PHP/MySQL portal with charts. Respondents are Computer Science lecturers and undergraduate students. The study does not cover all UNN faculties, does not replace official promotion appraisal, and does not measure research productivity. Student ratings may contain bias; anonymity and aggregation reduce misuse risk but do not eliminate all subjectivity. Interface diagrams and screenshots are placed in the appendices of the bound copy.
 
 ### 1.6 Operational Definition of Terms
 
 **Preknowledge:** Useful information a student obtains about a lecturer’s teaching style before or early in a course.  
 **Overview of Lecturers:** A chart-based summary of aggregated student ratings across defined quality indicators.  
+**Overall Lecturer Rating (Total Overview):** The simple average of a lecturer's eight quality mean scores, computed from all student ratings on a 1–5 scale and used to rank lecturers for the top-overview table.  
 **Lecturer Assessment Qualities:** Interactiveness, audibility, availability of lecture notes, class control, communication, punctuality, fairness in assessment, and approachability.  
 **Automated Response Form:** A digital questionnaire that stores and processes student ratings without paper collation.  
 **Web-Based Assessment Portal:** The PHP-driven site for registration, assessment, charts, and role-based dashboards.  

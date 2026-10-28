@@ -35,8 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($user) {
                 // Invalidate any previous unused tokens for this user
-                db()->prepare('DELETE FROM password_resets WHERE user_id = ? AND used = 0')->execute();
-                db()->prepare('DELETE FROM password_resets WHERE user_id = ? AND used = 0')->bind_param('i', $user['id'])->execute();
+                $del = db()->prepare('DELETE FROM password_resets WHERE user_id = ? AND used = 0');
+                $del->bind_param('i', $user['id']);
+                $del->execute();
+                $del->close();
 
                 $token = bin2hex(random_bytes(32));
                 $expires = date('Y-m-d H:i:s', time() + 3600); // 1 hour

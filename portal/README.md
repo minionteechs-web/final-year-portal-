@@ -50,7 +50,7 @@ Students rate lecturers on eight teaching qualities and explore radar/bar chart 
 
 - Role-based auth (student / lecturer / admin) with `password_hash` / `password_verify`
 - Prepared statements (mysqli) and CSRF tokens on forms
-- One assessment per student–lecturer–course–semester–session (unique constraint)
+- One assessment per student–lecturer (regardless of course or semester; unique constraint)
 - Eight qualities: interactiveness, audibility, lecture_notes, class_control, communication, punctuality, fairness, approachability
 - Chart.js radar & bar overviews on student and lecturer dashboards
 - Admin CRUD for users, courses, and lecturer profiles
@@ -102,7 +102,7 @@ portal/
 - Generic error messages prevent email enumeration on registration.
 - Password reset flow with single-use, time-limited tokens.
 - Database credentials loaded from environment variables (with safe defaults).
-- Duplicate assessments for the same semester/session are blocked in SQL and in application logic.
+- Duplicate assessments for the same lecturer are blocked in SQL and in application logic.
 
 ## Troubleshooting
 

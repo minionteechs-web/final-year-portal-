@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/charts.php';
 require_role('student');
+require_student_access();
 
 $lecturers = db()->query(
     "SELECT l.id, l.title, l.research_area, u.full_name, u.department,
@@ -23,6 +24,31 @@ foreach ($lecturers as $lec) {
     $chartPayloads[(int) $lec['id']] = chart_dataset_from_summary($summary);
 }
 
+$ranked = array_values(array_filter($lecturers, static function ($l) {
+    return (int) ($l['rating_count'] ?? 0) > 0;
+}));
+usort($ranked, static function ($a, $b) {
+    $cmp = ($b['overall'] ?? 0) <=> ($a['overall'] ?? 0);
+    if ($cmp !== 0) {
+        return $cmp;
+    }
+    return strcmp((string) $a['full_name'], (string) $b['full_name']);
+});
+$topThree = array_slice($ranked, 0, 3);
+
+function overview_band($score): string
+{
+    $s = (float) $score;
+    if ($s >= 3.5) {
+        return 'High';
+    }
+    if ($s >= 2.5) {
+        return 'Moderate';
+    }
+    return 'Low';
+}
+
+
 $pageTitle = 'Lecturer Overview';
 $activeNav = 'overview';
 require_once __DIR__ . '/../includes/header.php';
@@ -31,6 +57,37 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="container">
     <h1 class="page-title">Lecturer overview</h1>
     <p class="page-lead">Compare teaching qualities across lecturers with radar and bar charts.</p>
+
+    <?php if ($topThree): ?>
+        <div class="panel" style="margin-bottom:1.25rem;">
+            <h2 style="margin-top:0;font-family:var(--font-display);color:var(--green-deep);">Top 3 lecturers by overall rating</h2>
+            <p class="meta">Total Overview = simple average of the eight quality means (1.00-2.49 Low; 2.50-3.49 Moderate; 3.50-5.00 High).</p>
+            <div class="table-wrap">
+                <table class="data">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Lecturer</th>
+                            <th>Overall rating (/5.00)</th>
+                            <th>Interpretation band</th>
+                            <th>Ratings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach (array_values($topThree) as $i => $lec): ?>
+                            <tr>
+                                <td><?= ($i + 1) ?><?= $i === 0 ? 'st' : ($i === 1 ? 'nd' : 'rd') ?></td>
+                                <td><?= e($lec['title'] . ' ' . $lec['full_name']) ?></td>
+                                <td><?= e((string) ($lec['overall'] ?? '0')) ?></td>
+                                <td><?= e(overview_band($lec['overall'] ?? 0)) ?></td>
+                                <td><?= (int) $lec['rating_count'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <?php if (!$lecturers): ?>
         <div class="empty-state">No lecturers found.</div>

@@ -47,11 +47,13 @@ $flash      = get_flash();
                         <a href="<?= e(base_path()) ?>/student/enroll.php" class="<?= $activeNav === 'enroll' ? 'is-active' : '' ?>">My courses</a>
                         <a href="<?= e(base_path()) ?>/student/assess.php" class="<?= $activeNav === 'assess' ? 'is-active' : '' ?>">Assess</a>
                         <a href="<?= e(base_path()) ?>/student/profile.php" class="<?= $activeNav === 'profile' ? 'is-active' : '' ?>">Profile</a>
+                        <a href="<?= e(base_path()) ?>/student/feedback.php" class="<?= $activeNav === 'feedback' ? 'is-active' : '' ?>">Feedback</a>
                     <?php elseif ($user['role'] === 'admin'): ?>
                         <a href="<?= e(base_path()) ?>/admin/manage_users.php" class="<?= $activeNav === 'users' ? 'is-active' : '' ?>">Users</a>
                         <a href="<?= e(base_path()) ?>/admin/manage_courses.php" class="<?= $activeNav === 'courses' ? 'is-active' : '' ?>">Courses</a>
                         <a href="<?= e(base_path()) ?>/admin/manage_enrollments.php" class="<?= $activeNav === 'enrollments' ? 'is-active' : '' ?>">Enrolments</a>
                         <a href="<?= e(base_path()) ?>/admin/manage_lecturers.php" class="<?= $activeNav === 'lecturers' ? 'is-active' : '' ?>">Lecturers</a>
+                        <a href="<?= e(base_path()) ?>/admin/manage_feedback.php" class="<?= $activeNav === 'feedback' ? 'is-active' : '' ?>">Feedback</a>
                     <?php endif; ?>
                     <span class="nav-user"><?= e($user['full_name']) ?></span>
                     <a class="btn btn-ghost btn-sm" href="<?= e(base_path()) ?>/logout.php">Logout</a>

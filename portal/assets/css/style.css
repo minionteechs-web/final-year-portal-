@@ -652,6 +652,16 @@ img {
   font-weight: 600;
 }
 
+.badge-warn {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(211, 84, 0, 0.2);
+  color: #d35400;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
 .table-wrap {
   overflow-x: auto;
 }
@@ -752,6 +762,36 @@ table.data tr:hover td {
   .lecturer-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* -------------------------------------------------
+   Profile picture (avatar)
+   ------------------------------------------------- */
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(11, 61, 46, 0.15);
+  background: var(--cream);
+}
+
+.default-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--green-mid);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(11, 61, 46, 0.15);
 }
 
 @media (max-width: 760px) {

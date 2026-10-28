@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/charts.php';
 require_role('student');
+require_student_access();
 
 $id = (int) ($_GET['id'] ?? 0);
 $stmt = db()->prepare(
@@ -40,7 +41,7 @@ $courseRows = $courses->get_result()->fetch_all(MYSQLI_ASSOC);
 $courses->close();
 
 $comments = db()->prepare(
-    "SELECT comment, created_at, c.course_code
+    "SELECT a.comment, a.created_at, c.course_code
      FROM assessments a
      JOIN courses c ON c.id = a.course_id
      WHERE a.lecturer_id = ? AND a.comment IS NOT NULL AND TRIM(a.comment) <> ''

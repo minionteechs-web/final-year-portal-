@@ -27,7 +27,9 @@ CREATE TABLE users (
   role ENUM('student', 'lecturer', 'admin') NOT NULL DEFAULT 'student',
   department VARCHAR(120) DEFAULT NULL,
   matric_number VARCHAR(40) DEFAULT NULL,
+  profile_picture VARCHAR(255) DEFAULT NULL,
   academic_level ENUM('100', '200', '300', '400') DEFAULT NULL,
+  pending_level ENUM('100', '200', '300', '400') DEFAULT NULL,
   is_active TINYINT(1) NOT NULL DEFAULT 1,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -53,7 +55,7 @@ CREATE TABLE courses (
   department VARCHAR(120) NOT NULL,
   level VARCHAR(20) DEFAULT '100',
   course_type ENUM('Compulsory', 'Elective') NOT NULL DEFAULT 'Compulsory',
-  semester ENUM('Harmattan', 'Rain') NOT NULL DEFAULT 'Harmattan',
+  semester ENUM('First Semester', 'Second Semester') NOT NULL DEFAULT 'First Semester',
   session_year VARCHAR(20) NOT NULL DEFAULT '2024/2025',
   description TEXT DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -87,7 +89,7 @@ CREATE TABLE assessments (
   student_id INT UNSIGNED NOT NULL,
   lecturer_id INT UNSIGNED NOT NULL,
   course_id INT UNSIGNED NOT NULL,
-  semester ENUM('Harmattan', 'Rain') NOT NULL,
+  semester ENUM('First Semester', 'Second Semester') NOT NULL,
   session_year VARCHAR(20) NOT NULL,
   interactiveness TINYINT UNSIGNED NOT NULL CHECK (interactiveness BETWEEN 1 AND 5),
   audibility TINYINT UNSIGNED NOT NULL CHECK (audibility BETWEEN 1 AND 5),
@@ -99,7 +101,7 @@ CREATE TABLE assessments (
   approachability TINYINT UNSIGNED NOT NULL CHECK (approachability BETWEEN 1 AND 5),
   comment TEXT DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE KEY uq_assessment_once (student_id, lecturer_id, course_id, semester, session_year),
+  UNIQUE KEY uq_student_lecturer (student_id, lecturer_id),
   CONSTRAINT fk_assess_student FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
   CONSTRAINT fk_assess_lecturer FOREIGN KEY (lecturer_id) REFERENCES lecturers(id) ON DELETE CASCADE,
   CONSTRAINT fk_assess_course FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
@@ -125,6 +127,19 @@ CREATE TABLE system_feedback (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_feedback_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
+
+-- Global portal settings (e.g., enable/disable student access)
+CREATE TABLE portal_settings (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  setting_key VARCHAR(100) NOT NULL UNIQUE,
+  setting_value VARCHAR(255) NOT NULL DEFAULT '1',
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_by INT UNSIGNED DEFAULT NULL,
+  CONSTRAINT fk_settings_updated_by FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+INSERT INTO portal_settings (setting_key, setting_value, updated_by)
+VALUES ('student_access_enabled', '1', 1);
 
 -- ---------------------------------------------------------------------------
 -- Seed data
@@ -169,11 +184,11 @@ INSERT INTO lecturers (id, user_id, title, bio, office_location, research_area) 
  'Database Systems');
 
 INSERT INTO courses (id, course_code, course_title, department, level, course_type, semester, session_year, description) VALUES
-(1, 'COS 301', 'Software Engineering', 'Computer Science', '300', 'Compulsory', 'Harmattan', '2024/2025',
+(1, 'COS 301', 'Software Engineering', 'Computer Science', '300', 'Compulsory', 'First Semester', '2024/2025',
  'Principles of software development, requirements engineering, and project management.'),
-(2, 'COS 314', 'Artificial Intelligence', 'Computer Science', '300', 'Compulsory', 'Rain', '2024/2025',
+(2, 'COS 314', 'Artificial Intelligence', 'Computer Science', '300', 'Compulsory', 'Second Semester', '2024/2025',
  'Search algorithms, knowledge representation, and introductory machine learning.'),
-(3, 'COS 342', 'Database Management Systems', 'Computer Science', '300', 'Elective', 'Harmattan', '2024/2025',
+(3, 'COS 342', 'Database Management Systems', 'Computer Science', '300', 'Elective', 'First Semester', '2024/2025',
  'Relational modelling, SQL, transactions, and database administration.');
 
 INSERT INTO course_lecturers (course_id, lecturer_id, is_primary) VALUES
@@ -192,15 +207,15 @@ INSERT INTO assessments
 (student_id, lecturer_id, course_id, semester, session_year,
  interactiveness, audibility, lecture_notes, class_control,
  communication, punctuality, fairness, approachability, comment) VALUES
-(5, 1, 1, 'Harmattan', '2024/2025', 4, 5, 4, 4, 5, 4, 4, 5, 'Engaging classes and clear explanations.'),
-(6, 1, 1, 'Harmattan', '2024/2025', 5, 4, 5, 4, 4, 5, 5, 4, 'Very interactive and fair grading.'),
-(7, 1, 1, 'Harmattan', '2024/2025', 4, 4, 3, 5, 4, 4, 4, 4, NULL),
-(5, 2, 2, 'Rain', '2024/2025', 5, 5, 4, 4, 5, 3, 4, 5, 'Brilliant AI examples.'),
-(6, 2, 2, 'Rain', '2024/2025', 4, 5, 5, 4, 5, 4, 5, 5, 'Excellent lecture notes.'),
-(7, 2, 2, 'Rain', '2024/2025', 5, 4, 4, 5, 4, 4, 4, 4, NULL),
-(5, 3, 3, 'Harmattan', '2024/2025', 3, 4, 5, 4, 4, 5, 5, 3, 'Strong on SQL labs.'),
-(6, 3, 3, 'Harmattan', '2024/2025', 4, 4, 5, 3, 4, 5, 4, 4, 'Notes are thorough.'),
-(7, 3, 3, 'Harmattan', '2024/2025', 4, 3, 4, 4, 3, 4, 5, 4, NULL);
+(5, 1, 1, 'First Semester', '2024/2025', 4, 5, 4, 4, 5, 4, 4, 5, 'Engaging classes and clear explanations.'),
+(6, 1, 1, 'First Semester', '2024/2025', 5, 4, 5, 4, 4, 5, 5, 4, 'Very interactive and fair grading.'),
+(7, 1, 1, 'First Semester', '2024/2025', 4, 4, 3, 5, 4, 4, 4, 4, NULL),
+(5, 2, 2, 'Second Semester', '2024/2025', 5, 5, 4, 4, 5, 3, 4, 5, 'Brilliant AI examples.'),
+(6, 2, 2, 'Second Semester', '2024/2025', 4, 5, 5, 4, 5, 4, 5, 5, 'Excellent lecture notes.'),
+(7, 2, 2, 'Second Semester', '2024/2025', 5, 4, 4, 5, 4, 4, 4, 4, NULL),
+(5, 3, 3, 'First Semester', '2024/2025', 3, 4, 5, 4, 4, 5, 5, 3, 'Strong on SQL labs.'),
+(6, 3, 3, 'First Semester', '2024/2025', 4, 4, 5, 3, 4, 5, 4, 4, 'Notes are thorough.'),
+(7, 3, 3, 'First Semester', '2024/2025', 4, 3, 4, 4, 3, 4, 5, 4, NULL);
 
 INSERT INTO system_feedback (user_id, subject, message) VALUES
 (5, 'Great portal', 'The lecturer overview charts help me prepare for courses.');

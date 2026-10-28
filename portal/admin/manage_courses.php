@@ -23,13 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $department = trim($_POST['department'] ?? '');
             $level = trim($_POST['level'] ?? '100');
             $courseType = $_POST['course_type'] ?? 'Compulsory';
-            $semester = $_POST['semester'] ?? 'Harmattan';
+            $semester = $_POST['semester'] ?? 'First Semester';
             $session = trim($_POST['session_year'] ?? '2024/2025');
             $description = trim($_POST['description'] ?? '');
             $lecturerId = (int) ($_POST['lecturer_id'] ?? 0);
 
-            if (!in_array($semester, ['Harmattan', 'Rain'], true)) {
-                $semester = 'Harmattan';
+            if (!in_array($semester, ['First Semester', 'Second Semester'], true)) {
+                $semester = 'First Semester';
             }
             if (!in_array($courseType, ['Compulsory', 'Elective'], true)) {
                 $courseType = 'Compulsory';
@@ -169,8 +169,8 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="form-group">
                     <label for="semester">Semester</label>
                     <select id="semester" name="semester">
-                        <option value="Harmattan">Harmattan</option>
-                        <option value="Rain">Rain</option>
+                        <option value="First Semester">First Semester</option>
+                        <option value="Second Semester">Second Semester</option>
                     </select>
                 </div>
             </div>

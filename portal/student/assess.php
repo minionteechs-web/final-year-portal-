@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/auth.php';
 require_role('student');
+require_student_access();
 
 $user = current_user();
 $error = '';
@@ -28,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $lecturerId = (int) ($_POST['lecturer_id'] ?? 0);
         $courseId = (int) ($_POST['course_id'] ?? 0);
-        $semester = $_POST['semester'] ?? 'Harmattan';
+        $semester = $_POST['semester'] ?? 'First Semester';
         $sessionYear = trim($_POST['session_year'] ?? '2024/2025');
         $comment = trim($_POST['comment'] ?? '');
 
-        if (!in_array($semester, ['Harmattan', 'Rain'], true)) {
-            $semester = 'Harmattan';
+        if (!in_array($semester, ['First Semester', 'Second Semester'], true)) {
+            $semester = 'First Semester';
         }
 
         $ratings = [];
@@ -62,19 +63,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $semester = $validPair['semester'];
                 $sessionYear = $validPair['session_year'];
 
+                // One assessment per student per lecturer (regardless of course/semester)
                 $dup = db()->prepare(
                     'SELECT id FROM assessments
-                     WHERE student_id = ? AND lecturer_id = ? AND course_id = ? AND semester = ? AND session_year = ?
+                     WHERE student_id = ? AND lecturer_id = ?
                      LIMIT 1'
                 );
                 $sid = $uid;
-                $dup->bind_param('iiiss', $sid, $lecturerId, $courseId, $semester, $sessionYear);
+                $dup->bind_param('ii', $sid, $lecturerId);
                 $dup->execute();
                 $exists = $dup->get_result()->fetch_assoc();
                 $dup->close();
 
                 if ($exists) {
-                    $error = 'You have already assessed this lecturer for that course in this semester/session.';
+                    $error = 'You have already assessed this lecturer. You may only submit one assessment per lecturer.';
                 } else {
                     $sql = 'INSERT INTO assessments
                         (student_id, lecturer_id, course_id, semester, session_year,

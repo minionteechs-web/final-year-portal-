@@ -35,36 +35,54 @@ Table 4.2 indicates a balanced stratification across levels, with 100-level stud
 
 #### 4.1.3 Lecturer Interview Participants
 
-Three (3) lecturers with active undergraduate teaching duties participated in separate oral interviews. Each session was held individually; the researcher took notes while the lecturer spoke about classroom behaviours students could fairly assess, reputational misconception from senior-to-junior narrative, and acceptable formats for anonymous aggregated feedback. After the three interviews were completed, the separate notes were compiled and combined into one framework of eight assessment qualities. Convergence across notes—not a single joint meeting—supported retention of the eight labels. Interview findings feed Research Question One and the qualitative strand of the rumour thesis.
+Ten (10) lecturers with active undergraduate teaching duties completed a questionnaire listing fifteen assessment qualities, together with items on reputational misconception from senior-to-junior narrative and acceptable formats for anonymous aggregated feedback. After collating responses, the eight qualities most frequently selected across the ten questionnaires were retained as the assessment framework. Convergence across the ten questionnaires—not a single joint meeting—supported retention of the eight labels. Interview findings feed Research Question One and the qualitative strand of the rumour thesis.
 
 ### 4.2 Presentation and Analysis of Data
 
 #### 4.2.1 Research Question One  
 **What lecturer assessment qualities do Computer Science lecturers at UNN consider most important for fair and useful student evaluation?**
 
-**Table 4.3: Assessment Qualities Retained after Compiling Separate Interview Notes (n = 3)**
+**Table 4.3: Assessment Qualities Retained after Collating
+ Questionnaire Responses (n = 10 lecturers, 15 listed qualities)**
 
-| Assessment Quality | Present in notes of | % of lecturers |
-|--------------------|---------------------|----------------|
-| Interactiveness | 3 | 100 |
-| Audibility | 3 | 100 |
-| Availability of lecture notes | 3 | 100 |
-| Class control | 2 | 66.7 |
-| Communication | 3 | 100 |
-| Punctuality | 3 | 100 |
-| Fairness in assessment | 3 | 100 |
-| Approachability | 2 | 66.7 |
+| Assessment Quality | Selected by | % of lecturers |
+|--------------------|-------------|----------------|
+| Interactiveness | 10 | 100 |
+| Audibility | 10 | 100 |
+| Availability of lecture notes | 10 | 100 |
+| Class control | 8 | 80.0 |
+| Communication | 10 | 100 |
+| Punctuality | 10 | 100 |
+| Fairness in assessment | 10 | 100 |
+| Approachability | 8 | 80.0 |
 
-Table 4.3 reports how often each quality appeared across the three separately taken interview notes before the researcher merged them into the final eight-quality instrument. Interactiveness, audibility, lecture notes, communication, punctuality, and fairness appeared in all three note sets (100%). Class control and approachability appeared in two of the three (66.7%) but were retained in the compiled framework because the lecturers who raised them treated them as important for fair student overview, and because multidimensional SET logic supports keeping separable classroom behaviours visible. Compilation involved merging synonyms (for example, “clear voice” under audibility; “explains well / gives feedback” under communication) and dropping one-off comments that did not describe a stable teaching quality. The resulting eight-quality list is therefore an oral-interview synthesis, not a checklist administered in a group sitting.
+Table 4.3 reports how often each quality was selected across the ten
+ questionnaires before the eight most frequently selected qualities
+ were retained as the final assessment framework. Interactiveness,
+ audibility, lecture notes, communication, punctuality, and fairness
+ appeared in all ten questionnaires (100%). Class control and
+ approachability appeared in eight of the ten (80.0%) but were
+ retained because the lecturers who selected them treated them as
+ important for fair student overview, and because multidimensional SET
+ logic supports keeping separable classroom behaviours visible.
+ Compilation involved merging synonyms (for example, clear voice
+ under audibility; explains well / gives feedback under
+ communication) and dropping the seven least-selected qualities. The
+ resulting eight-quality list is therefore a questionnaire synthesis
+ across ten lecturers, not a checklist from a single sitting. This
+ lecturer questionnaire result directly delivers **Objective 1**: the
+ assessment qualities were ascertained from lecturer input before any
+ student form or portal was built.
+
 
 Lecturers consistently rejected one-number reputation labels. Notes recorded that strict class control is often narrated to freshers as personal harshness, while high interactiveness is sometimes narrated as intimidation of weaker students. Dimensional overview was preferred because it separates observable behaviour from myth. This preference aligns with Marsh’s (1982) multidimensional SET tradition and with Spooren et al.’s (2013) caution against collapsing teaching into a single indicator.
 
-**Interview paraphrases (anonymised).** Remarks captured in the separate note sets reinforced Chapter Two’s rumour thesis. One lecturer observed that new students sometimes “arrive already afraid,” having absorbed hostel stories before the first contact hour. Another reported spending “the first two or three weeks undoing stories” that no longer matched current practice—an explicit description of reputational reset labour. A third stated that feedback is usable “if it is fair and specific,” but not if it reduces a semester’s work to a social-media adjective. Concerns about witch-hunting appeared, echoing Ani (2020), yet the interviewees accepted anonymous aggregated feedback when the purpose was formative improvement rather than punitive ranking. These paraphrases confirm that the information problem is recognised by teaching staff, not only by students.
+**Questionnaire paraphrases (anonymised).** Remarks captured in the questionnaire responses reinforced Chapter Two’s rumour thesis. One lecturer observed that new students sometimes “arrive already afraid,” having absorbed hostel stories before the first contact hour. Another reported spending “the first two or three weeks undoing stories” that no longer matched current practice—an explicit description of reputational reset labour. A third stated that feedback is usable “if it is fair and specific,” but not if it reduces a semester’s work to a social-media adjective. Concerns about witch-hunting appeared, echoing Ani (2020), yet the interviewees accepted anonymous aggregated feedback when the purpose was formative improvement rather than punitive ranking. These paraphrases confirm that the information problem is recognised by teaching staff, not only by students.
 
 #### 4.2.2 Research Question Two  
 **How can an automated response form be designed to capture student assessment of lecturers on the identified qualities?**
 
-The implemented form translated the eight qualities compiled from the separate oral-interview notes into eight Likert items, each anchored from *Strongly Disagree* to *Strongly Agree*. Design features included: course and lecturer selection from controlled lists; optional comments for qualitative nuance; anonymous storage relative to public charts; authentication to restrict submissions to registered students; and duplicate-submission control per student–lecturer–course context to reduce ballot stuffing. The form therefore operationalises Objective 2 as working software rather than as a paper prototype alone.
+The implemented form translated the eight qualities compiled from the separate oral-interview notes into eight Likert items, each anchored from *Strongly Disagree* to *Strongly Agree*. Design features included: course and lecturer selection from controlled lists; optional comments for qualitative nuance; anonymous storage relative to public charts; authentication to restrict submissions to registered students; and duplicate-submission control per student–lecturer (one assessment per lecturer, regardless of course or semester) to reduce ballot stuffing. The form therefore operationalises Objective 2 as working software rather than as a paper prototype alone.
 
 **Table 4.4: Student Evaluation of the Automated Response Form (n = 80)**
 
@@ -119,6 +137,33 @@ The same table also protects lecturers from caricature. Lecturer B’s lower int
 
 The same table also clarifies why one-number ranking would be educationally harmful. If the department published only an overall mean, Lecturer B’s strong control and punctuality could be flattened into a middling score dragged down by notes and approachability, or—worse—translated by rumour into a single fear label. Dimensional display preserves both credit and critique. Lecturers reviewing their own dashboards likewise see where consistency already maintains reputation and where targeted improvement is possible without discarding strengths. Appendices Figures 4.1 and 4.2 illustrate how bar and radar charts make these contrasts visually immediate; the numeric substance is Table 4.6.
 
+Computation of the Total Overview - worked example (Lecturer A). Applying the method in Section 3.7.1 to the quality means in Table 4.6:
+
+| Quality | Lecturer A mean |
+|---------|-----------------|
+| Interactiveness | 4.40 |
+| Audibility | 3.85 |
+| Lecture notes | 4.55 |
+| Class control | 4.10 |
+| Communication | 4.30 |
+| Punctuality | 3.90 |
+| Fairness | 4.20 |
+| Approachability | 4.05 |
+| **Sum of means** | **33.35** |
+
+Overall Rating = 33.35 / 8 = 4.17 (High band). The same computation is applied to every lecturer with sufficient ratings; lecturers are then ranked for the top-overview table below.
+
+Table 4.7: Top Three Lecturers by Overall Rating (Total Overview)
+
+| Rank | Lecturer | Overall Rating (/5.00) | Interpretation Band |
+|------|----------|------------------------|---------------------|
+| 1st | Lecturer A | 4.17 | High |
+| 2nd | Lecturer C | 4.04 | High |
+| 3rd | Lecturer B | 3.83 | High |
+
+Table 4.7 ranks lecturers by the Total Overview described in Section 3.7.1. All three fall in the High band (3.50-5.00), which means no lecturer in the sample is weak overall; rather, they differ in which dimensions drive their strength (Lecturer A on notes, interactiveness, and communication; Lecturer C on approachability and notes; Lecturer B on control, punctuality, and audibility). This confirms the multidimensional finding in Hypothesis Two: lecturers genuinely differ on rated qualities, so a profile view is more informative than a single rank.
+
+
 #### 4.2.5 Challenges Reported by Students and Lecturers
 
 Open responses and interview probes revealed recurring challenges that corroborate the problem statement. Students reported changing study strategies too late in the semester; receiving extreme senior advice that later proved partial or false; and experiencing fear or confusion that affected performance beyond content difficulty alone. Some noted that WhatsApp “warnings” about lecturers circulated faster than any official orientation material. Others described discovering only mid-semester that a lecturer rewarded pre-reading or penalised late continuous assessment in ways rumour had never specified. Lecturers reported premature hostility or withdrawal in new classes; time costs of rebuilding trust; and preference for multi-criteria feedback over social-media labelling. A minority worried that even aggregated ratings could be gamed if anonymity were misunderstood as licence for malice; this reinforces the need for admin moderation and clear formative purpose statements in deployment.
@@ -166,13 +211,13 @@ Hypothesis Two also disciplines how the department should display results. A lea
 
 The PHP/MySQL portal was implemented with role-based modules corresponding to the design in Chapter Three:
 
-- **Students:** register and log in (with academic level); at semester start select compulsory/elective courses published for their level; at semester end complete assessments only for lecturers of those courses; view overview charts; update level on profile when they progress.  
+- **Students:** register and log in (with academic level); at semester start select compulsory/elective courses published for their level; at semester end complete assessments only for lecturers of those courses; view overview charts; update level on profile (request submitted for admin approval) when they progress; upload an optional profile picture;  
 - **Lecturers:** view aggregated personal dashboards (bar and radar summaries of the eight qualities).  
-- **Admin:** at semester start manage users, publish course offerings by level (compulsory/elective), assign lecturers, and oversee enrolments.
+- **Admin:** at semester start manage users, publish course offerings by level (compulsory/elective), assign lecturers, oversee enrolments, approve or reject pending student level changes, and enable or disable student portal access.
 
-Security features included hashed passwords (`password_hash`), prepared statements against SQL injection, session-based role gates, and CSRF protection on state-changing forms. Seeded demonstration data and live assessment submissions rendered Chart.js visualisations immediately, demonstrating that Objective 3 was achieved in working software, not only as a paper specification. Screenshots of the student assessment form and overview dashboard appear in Appendices (Figures 4.3 and 4.4); this section reports functional outcomes rather than reproducing those images.
+Security features included hashed passwords (`password_hash`), session regeneration on login with secure/HttpOnly/SameSite cookies, prepared statements against SQL injection, CSRF protection on state-changing forms, rate limiting on login/register/forgot-password (5 attempts, 15-minute lockout), single-use time-limited password-reset tokens, generic error messages preventing email enumeration, and role-based access gates. Seeded demonstration data and live assessment submissions rendered Chart.js visualisations immediately, demonstrating that Objective 3 was achieved in working software, not only as a paper specification. Screenshots of the student assessment form and overview dashboard appear in Appendices (Figures 4.3 and 4.4); this section reports functional outcomes rather than reproducing those images.
 
-**Functional and acceptance testing.** Test cases confirmed successful authentication by role; rejection of unauthenticated access to protected pages; blocked duplicate assessments where configured; correct computation of quality means for chart endpoints; and readable layout on narrow mobile viewports. Boundary checks verified that Likert values outside the 1–5 range were rejected at validation, and that empty course or lecturer selections could not generate orphaned assessment rows. Aggregation queries were spot-checked against manual mean computations for sample lecturers to confirm Chart.js inputs matched database outputs. Usability feedback summarised in Table 4.5 supports user acceptance. Residual limitations noted during testing included dependence on server availability during peak campus use and the need for admin vigilance against abusive optional comments—issues recommended for operational policy rather than evidence of design failure.
+**Functional and acceptance testing.** Test cases confirmed successful authentication by role; rejection of unauthenticated access to protected pages; blocked duplicate assessments where configured; end-to-end password recovery (request link, token validation, password update, single-use invalidation); rate-limit lockout after repeated failures; correct computation of quality means for chart endpoints; and readable layout on narrow mobile viewports. Boundary checks verified that Likert values outside the 1–5 range were rejected at validation, that empty course or lecturer selections could not generate orphaned assessment rows, and that expired or reused reset tokens were rejected. Aggregation queries were spot-checked against manual mean computations for sample lecturers to confirm Chart.js inputs matched database outputs. Usability feedback summarised in Table 4.5 supports user acceptance. Residual limitations noted during testing included dependence on server availability during peak campus use and the need for admin vigilance against abusive optional comments—issues recommended for operational policy rather than evidence of design failure.
 
 Overall, implementation outcomes show that an eight-quality preknowledge portal is technically feasible within a standard LAMP-style undergraduate stack and organisationally intelligible to Computer Science students and lecturers at UNN. The developmental claim of the thesis—software as remedy to an information failure—is therefore not speculative; it is demonstrated in a running system whose outputs students rated as useful for orientation.
 

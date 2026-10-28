@@ -127,7 +127,7 @@ function current_user(): ?array
         return $user;
     }
 
-    $stmt = db()->prepare('SELECT id, full_name, email, role, department, matric_number, academic_level, is_active FROM users WHERE id = ? LIMIT 1');
+    $stmt = db()->prepare('SELECT id, full_name, email, role, department, matric_number, profile_picture, academic_level, pending_level, is_active FROM users WHERE id = ? LIMIT 1');
     $uid = (int) $_SESSION['user_id'];
     $stmt->bind_param('i', $uid);
     $stmt->execute();
@@ -177,6 +177,32 @@ function require_role(string ...$roles): void
     if (!$user || !in_array($user['role'], $roles, true)) {
         set_flash('error', 'You do not have permission to access that page.');
         header('Location: ' . dashboard_url_for_role($user['role'] ?? 'student'));
+        exit;
+    }
+}
+
+/**
+ * Check whether student portal access is currently enabled by admin.
+ * Returns true if enabled (default), false if admin has disabled it.
+ */
+function is_student_access_enabled(): bool
+{
+    $row = db()->query(
+        "SELECT setting_value FROM portal_settings WHERE setting_key = 'student_access_enabled' LIMIT 1"
+    )->fetch_assoc();
+    return $row === null || (string) $row['setting_value'] === '1';
+}
+
+/**
+ * Require that student access is enabled.
+ * If disabled, redirects students away from student pages.
+ */
+function require_student_access(): void
+{
+    $user = current_user();
+    if ($user && $user['role'] === 'student' && !is_student_access_enabled()) {
+        set_flash('error', 'Student access to the portal is currently disabled by the administrator. Please try again later.');
+        header('Location: ' . base_path() . '/login.php');
         exit;
     }
 }

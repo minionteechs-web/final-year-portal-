@@ -179,6 +179,10 @@ def fig_er():
            "PK id\nFK course_id\nFK lecturer_id\nis_primary")
     entity(8.0, 2.55, 2.7, 2.0, "STUDENT_\nENROLLMENTS",
            "PK id\nFK student_id\nFK course_id\nUNIQUE(student,\n course)")
+    entity(0.3, 0.25, 2.8, 1.7, "PASSWORD_\nRESETS",
+           "PK id\nFK user_id\ntoken (unique)\nexpires_at\nused_at")
+    entity(8.0, 0.25, 2.7, 1.7, "SYSTEM_\nFEEDBACK",
+           "PK id\nFK user_id\nsubject\nmessage\ncreated_at")
 
     # relationship lines
     ax.annotate("", xy=(3.5, 6.3), xytext=(3.2, 6.3),
