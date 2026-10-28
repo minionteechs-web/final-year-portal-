@@ -30,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$user || !(int) $user['is_active'] || !password_verify($password, $user['password'])) {
                 record_rate_limit_failure($rlKey);
                 $error = 'Invalid email or password.';
+            } elseif ($user['role'] === 'student' && !is_student_access_enabled()) {
+                $error = 'Student access to the portal is currently disabled by the administrator. Please try again later.';
             } else {
                 clear_rate_limit($rlKey);
                 login_user($user);

@@ -202,6 +202,7 @@ function require_student_access(): void
     $user = current_user();
     if ($user && $user['role'] === 'student' && !is_student_access_enabled()) {
         set_flash('error', 'Student access to the portal is currently disabled by the administrator. Please try again later.');
+        unset($_SESSION['user_id']);
         header('Location: ' . base_path() . '/login.php');
         exit;
     }
